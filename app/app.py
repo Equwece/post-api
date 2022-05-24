@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
 from .es_requests import *
+from .init_db import *
 from datetime import datetime
 from flasgger import Swagger
 
@@ -22,6 +23,13 @@ template = {
 app = Flask(__name__)
 api = Api(app)
 swagger = Swagger(app, template=template)
+
+@app.before_first_request
+def init_db_if_necessary():
+    '''Init json db and import data to 
+    Elasticsearch, if index is not created'''
+    if not is_index_created():
+        init_db()
 
 class PostList(Resource):
     def get(self):
