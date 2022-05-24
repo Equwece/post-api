@@ -2,6 +2,7 @@
 import csv 
 import json 
 import uuid
+from os.path import exists
 
 JSON_PATH = 'app/db.json'
 CSV_PATH = 'app/posts.csv'
@@ -52,6 +53,9 @@ def get_entry(entry_id, json_path=JSON_PATH):
         if obj['id'] == entry_id:
             return obj
     return None
+
+def is_db_file():
+    return exists(JSON_PATH)
 
 
 if __name__ == '__main__':

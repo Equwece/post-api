@@ -11,6 +11,9 @@ ES_ADDR = f'http://{ES_HOST}:{ES_PORT}/'
 def create_index(index='posts'):
     return requests.put(ES_ADDR + index)
 
+def delete_index(index='posts'):
+    return requests.delete(ES_ADDR + index)
+
 def is_index_created(index='posts'):
     return requests.get(ES_ADDR + index).status_code != 404
 

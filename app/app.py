@@ -27,8 +27,10 @@ swagger = Swagger(app, template=template)
 @app.before_first_request
 def init_db_if_necessary():
     '''Init json db and import data to 
-    Elasticsearch, if index is not created'''
-    if not is_index_created():
+    Elasticsearch, if db file does not 
+    exist or index is not created'''
+    if not is_db_file() or not is_index_created():
+        delete_index()
         init_db()
 
 class PostList(Resource):
