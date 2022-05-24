@@ -4,13 +4,25 @@ RESTful flask app with Elasticsearch for vacansy task.
 
 ## Installing / Getting started
 
-
 ```shell
-packagemanager install awesome-project
-awesome-project start
-awesome-project "Do something!"  # prints "Nah."
+git clone https://github.com/Equwece/post-api
+cd post-api
 ```
 
+Put posts.csv to post-api/app/ folder.
+
+```shell
+docker-compose build
+docker-compose up -d
+```
+
+First API request may take about ten seconds, it is ok - posts.csv imports to Elasticsearch.
+
+To search through posts request GET /search?q=query
+
+To get post by its uuid request GET /post/uuid 
+
+To delete post by its uuid request DELETE /post/uuid 
 
 ## Links
 

@@ -1,1 +1,83 @@
-{"basePath":"/","definitions":{"Post":{"properties":{"created_date":{"description":"Post date","type":"string"},"id":{"description":"UUID of post","type":"string"},"rubrics":{"description":"Post rubrics","type":"string"},"text":{"description":"Post text","type":"string"}}}},"host":"localhost","info":{"description":"Post API for vacansy task","title":"Post API","version":"0.0.1"},"paths":{"/post/{post_id}":{"delete":{"responses":{"204":{"description":"Post was deleted"},"404":{"description":"Post not found"}},"summary":"Delete post by id"},"get":{"responses":{"200":{"description":"Post","schema":{"$ref":"#/definitions/Post"}}},"summary":"Get Post by id"}},"/search":{"get":{"description":"Test<br/>","parameters":[{"in":"query","name":"q","type":"string"}],"responses":{"200":{"description":"Posts suitable for query","schema":{"$ref":"#/definitions/Post"}}},"summary":"Search posts by text query"}}},"schemes":["http","https"],"swagger":"2.0"}
+{
+  "basePath": "/",
+  "definitions": {
+    "Post": {
+      "properties": {
+        "created_date": {
+          "description": "Post date",
+          "type": "string"
+        },
+        "id": {
+          "description": "UUID of post",
+          "type": "string"
+        },
+        "rubrics": {
+          "description": "Post rubrics",
+          "type": "string"
+        },
+        "text": {
+          "description": "Post text",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "host": "localhost",
+  "info": {
+    "description": "Post API for vacansy task",
+    "title": "Post API",
+    "version": "0.0.1"
+  },
+  "paths": {
+    "/post/{post_id}": {
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Post was deleted"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        },
+        "summary": "Delete post by id"
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Post",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          }
+        },
+        "summary": "Get Post by id"
+      }
+    },
+    "/search": {
+      "get": {
+        "description": "Test<br/>",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Posts suitable for query",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          }
+        },
+        "summary": "Search posts by text query"
+      }
+    }
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "swagger": "2.0"
+}

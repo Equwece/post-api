@@ -15,6 +15,3 @@ RUN pip install -r requirements.txt
 
 # copy project
 COPY . /usr/src/app/
-
-# run init_db script
-# CMD ["python3", "-m", "/usr/src/app/app/init_db.py"]
