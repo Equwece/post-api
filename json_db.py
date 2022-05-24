@@ -3,8 +3,9 @@ import json
 import uuid
 
 JSON_PATH = 'db.json'
+CSV_PATH = 'posts.csv'
 
-def csv_to_json(csv_path, json_path=JSON_PATH):
+def csv_to_json(csv_path=CSV_PATH, json_path=JSON_PATH):
     csvfile = open(csv_path, 'r')
     jsonfile = open(json_path, 'w')
     reader = csv.DictReader(csvfile)
