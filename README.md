@@ -18,11 +18,11 @@ docker-compose up -d
 
 First API request may take about ten seconds, it is ok - posts.csv imports to Elasticsearch.
 
-To search through posts request GET /search?q=query
+To search through posts request GET http://localhost:5000/search?q=query
 
-To get post by its uuid request GET /post/uuid 
+To get post by its uuid request GET http://localhost:5000/post/uuid 
 
-To delete post by its uuid request DELETE /post/uuid 
+To delete post by its uuid request DELETE http://localhost:5000/post/uuid 
 
 ## Links
 
