@@ -30,8 +30,9 @@ def delete_entry(entry_id, json_path=JSON_PATH):
     f.close()
     for obj in json_list:
         if obj['id'] == entry_id:
-            del obj['id']
+            json_list.remove(obj)
             status = True
+            break
     with open(json_path, 'w') as f:
         json.dump(json_list, f)
     return status
@@ -41,6 +42,7 @@ def get_entry(entry_id, json_path=JSON_PATH):
     json_list = json.load(f)
     f.close()
     for obj in json_list:
+        # print(obj)
         if obj['id'] == entry_id:
             return obj
     return None
