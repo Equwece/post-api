@@ -3,40 +3,65 @@ from decouple import config
 import requests
 import uuid
 from .json_db import *
+import aiohttp
+import asyncio
 
 ES_HOST = config('ES_HOST')
 ES_PORT = int(config('ES_PORT'))
 ES_ADDR = f'http://{ES_HOST}:{ES_PORT}/'
 
-def create_index(index='posts'):
+async def create_index(index='posts'):
     return requests.put(ES_ADDR + index)
+    async with aiohttp.ClientSession() as session:
+        async with session.put(ES_ADDR + index) as resp:
+            status_code = resp.status
+            return status_code
 
-def delete_index(index='posts'):
-    return requests.delete(ES_ADDR + index)
+async def delete_index(index='posts'):
+    async with aiohttp.ClientSession() as session:
+        async with session.delete(ES_ADDR + index) as resp:
+            status_code = resp.status
+            return status_code
 
-def is_index_created(index='posts'):
-    return requests.get(ES_ADDR + index).status_code != 404
+async def is_index_created(index='posts'):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(ES_ADDR + index) as resp:
+            status_code = resp.status
+            return status_code == 200
 
-def post_doc(json_doc, doc_id='', index='posts'):
-    return requests.post(ES_ADDR + index + '/_doc/' + doc_id, json=json_doc)
+async def post_doc(json_doc, doc_id='', index='posts'):
+    async with aiohttp.ClientSession() as session:
+        async with session.post(ES_ADDR + index + '/_doc/' + str(doc_id), json=json_doc) as resp:
+            json_data = await resp.json()
+            return json_data
 
-def get_doc(doc_id, index='posts'):
-    return requests.get(ES_ADDR + index + '/_doc/' + str(doc_id))
+async def get_doc(doc_id, index='posts'):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(ES_ADDR + index + '/_doc/' + str(doc_id)) as resp:
+            json_data = await resp.json()
+            return json_data
 
-def delete_doc(doc_id, index='posts'):
-    return requests.delete(ES_ADDR + index + '/_doc/' + str(doc_id))
+async def delete_doc(doc_id, index='posts'):
+    async with aiohttp.ClientSession() as session:
+        async with session.delete(ES_ADDR + index + '/_doc/' + str(doc_id)) as resp:
+            json_data = await resp.json()
+            return json_data
 
-def search_index(query=None, index='posts'):
-    params = {
-        "size": 20,
-    }
-    if query:
-        params['q'] = query
-    return requests.get(ES_ADDR + index + '/_search', params=params)
+async def search_index(query=None, index='posts'):
+    async with aiohttp.ClientSession() as session:
+        params = {
+            "size": 20,
+        }
+        if query:
+            params['q'] = query
+        async with session.get(ES_ADDR + index + '/_search/', params=params) as resp:
+            json_data = await resp.json()
+            return json_data
+            
 
 def import_json_to_index(json_list, index='posts'):
     for obj in json_list:
         json_doc = {
             'text': obj['text'], 
         }
-        post_doc(json_doc, obj['id'])
+        asyncio.run(post_doc(json_doc, obj['id']))

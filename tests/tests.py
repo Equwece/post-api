@@ -1,6 +1,7 @@
 import pytest
 from app.app import *
 from pathlib import Path
+import asyncio
 
 test_folder = Path(__file__)
 
@@ -32,5 +33,4 @@ def test_delete_entry():
         random_post = json.loads(response.data)[0]
         delete_response = test_client.delete(f'/post/{random_post["id"]}')
         assert delete_response.status_code == 204
-        assert not get_entry(random_post['id'])
-        assert get_doc(random_post['id']).status_code == 404
+        assert test_client.get(f'/post/{random_post["id"]}').status_code == 404

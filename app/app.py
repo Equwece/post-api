@@ -4,6 +4,7 @@ from .es_requests import *
 from .init_db import *
 from datetime import datetime
 from flasgger import Swagger
+import asyncio
 
 template = {
   "swagger": "2.0",
@@ -29,8 +30,8 @@ def init_db_if_necessary():
     '''Init json db and import data to 
     Elasticsearch, if db file does not 
     exist or index is not created'''
-    if not is_db_file() or not is_index_created():
-        delete_index()
+    if not is_db_file() or not asyncio.run(is_index_created()):
+        asyncio.run(delete_index())
         init_db()
 
 class PostList(Resource):
@@ -68,12 +69,14 @@ class PostList(Resource):
         q = None
         if 'q' in args:
             q = args['q']
-        r = search_index(q) 
-        es_posts = r.json()['hits']['hits'][:20]
+        r = asyncio.run(search_index(q))
+        es_posts = r['hits']['hits'][:20]
+        # print(len(es_posts))
         db_posts = []
         for es_post in es_posts:
             post = get_entry(es_post['_id']) 
-            db_posts.append(post)
+            if post:
+                db_posts.append(post)
         db_posts.sort(key=lambda elem: elem['created_date'], reverse=True)
         return db_posts
 
@@ -109,7 +112,7 @@ class PostDetail(Resource):
             description: Post not found
 
         """
-        delete_doc(post_id)
+        asyncio.run(delete_doc(post_id))
         status = delete_entry(post_id)
         if status:
             return '', 204
