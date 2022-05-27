@@ -71,7 +71,6 @@ class PostList(Resource):
             q = args['q']
         r = asyncio.run(search_index(q))
         es_posts = r['hits']['hits'][:20]
-        # print(len(es_posts))
         db_posts = []
         for es_post in es_posts:
             post = get_entry(es_post['_id']) 

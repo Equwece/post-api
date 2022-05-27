@@ -9,7 +9,7 @@ CSV_PATH = 'app/posts.csv'
 
 def csv_to_json(csv_path=CSV_PATH, json_path=JSON_PATH):
     '''Convert posts.csv file to json format,
-    adding uuid each entry'''
+    adding uuid to each entry'''
     csvfile = open(csv_path, 'r')
     jsonfile = open(json_path, 'w')
     reader = csv.DictReader(csvfile)
@@ -44,12 +44,11 @@ def delete_entry(entry_id, json_path=JSON_PATH):
     return status
 
 def get_entry(entry_id, json_path=JSON_PATH):
-    '''Renturn entry or None from json db by entry id'''
+    '''Return entry or None from json db by entry id'''
     f = open(json_path, 'r')
     json_list = json.load(f)
     f.close()
     for obj in json_list:
-        # print(obj)
         if obj['id'] == entry_id:
             return obj
     return None
