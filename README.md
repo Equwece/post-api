@@ -24,6 +24,18 @@ To get post by its uuid request GET http://localhost:5000/post/uuid
 
 To delete post by its uuid request DELETE http://localhost:5000/post/uuid 
 
+## Features
+
+- Search for the text of posts in Elasticsearch index
+- Delete the post by uuid in Elasticsearch index
+- Sorting posts by creation date
+- REST API using Flask, Flask-RESTful
+- Installing guide in README
+- OpenAPI specification in docs.json
+- Functional tests
+- The application works in the Docker
+- Async requests for Elasticsearch API
+
 ## Links
 
 - Repository: https://github.com/Equwece/post-api
